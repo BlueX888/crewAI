@@ -590,20 +590,15 @@ class MCPClient:
                 continue
 
             if isinstance(value, dict):
-                nested_cleaned = self._clean_tool_arguments(value)
-                if nested_cleaned:  # Only add if not empty
-                    cleaned[key] = nested_cleaned
+                cleaned[key] = self._clean_tool_arguments(value)
             elif isinstance(value, list):
                 cleaned_list = []
                 for item in value:
                     if isinstance(item, dict):
-                        cleaned_item = self._clean_tool_arguments(item)
-                        if cleaned_item:
-                            cleaned_list.append(cleaned_item)
+                        cleaned_list.append(self._clean_tool_arguments(item))
                     elif item is not None:
                         cleaned_list.append(item)
-                if cleaned_list:
-                    cleaned[key] = cleaned_list
+                cleaned[key] = cleaned_list
             else:
                 cleaned[key] = value
 
